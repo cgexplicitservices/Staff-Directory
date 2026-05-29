@@ -136,7 +136,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
 .brand-footer{
   position:absolute;bottom:28px;
   font-size:11px;font-weight:600;
-  color:rgba(255,255,255,0.25);
+  color:rgba(255,255,255,0.52);
   letter-spacing:1px;text-transform:uppercase;
   z-index:1;
 }
@@ -302,7 +302,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
 
 /* ── STRENGTH BAR ── */
 .strength-bar{height:4px;border-radius:4px;background:var(--purple-light);margin-top:8px;overflow:hidden;}
-.strength-fill{height:100%;border-radius:4px;width:0;transition:width 0.35s var(--ease-out-expo),background 0.35s ease;}
+.strength-fill{height:100%;border-radius:4px;width:100%;transform:scaleX(0);transform-origin:left center;transition:transform 0.35s var(--ease-out-expo),background 0.35s ease;}
 
 /* ── MESSAGES ── */
 .error-msg{
@@ -468,8 +468,8 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
                      placeholder="admin@cgexplicitservices.com"
                      onkeydown="if(event.key==='Enter')sendOTP()">
             </div>
-            <div class="info-msg" id="step1-info"></div>
-            <div class="error-msg" id="step1-error"></div>
+            <div class="info-msg" id="step1-info" aria-live="polite"></div>
+            <div class="error-msg" id="step1-error" role="alert"></div>
             <button class="btn-submit" id="btn-send-otp" onclick="sendOTP()">Send Verification Code →</button>
             <hr class="divider">
             <div class="bottom-note">Already have an account? <strong onclick="showLogin()">Sign in here</strong></div>
@@ -485,15 +485,15 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
               <span style="font-size:11px;color:#9a7a7a">Check your spam folder if you don't see it.</span>
             </p>
             <div class="otp-row">
-              <input class="otp-box" id="otp-0" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code">
-              <input class="otp-box" id="otp-1" type="text" inputmode="numeric" maxlength="1">
-              <input class="otp-box" id="otp-2" type="text" inputmode="numeric" maxlength="1">
-              <input class="otp-box" id="otp-3" type="text" inputmode="numeric" maxlength="1">
-              <input class="otp-box" id="otp-4" type="text" inputmode="numeric" maxlength="1">
-              <input class="otp-box" id="otp-5" type="text" inputmode="numeric" maxlength="1">
+              <input class="otp-box" id="otp-0" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1 of 6">
+              <input class="otp-box" id="otp-1" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2 of 6">
+              <input class="otp-box" id="otp-2" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3 of 6">
+              <input class="otp-box" id="otp-3" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4 of 6">
+              <input class="otp-box" id="otp-4" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5 of 6">
+              <input class="otp-box" id="otp-5" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6 of 6">
             </div>
-            <div class="error-msg" id="step2-error"></div>
-            <div class="info-msg" id="step2-info"></div>
+            <div class="error-msg" id="step2-error" role="alert"></div>
+            <div class="info-msg" id="step2-info" aria-live="polite"></div>
             <button class="btn-submit" id="btn-verify-otp" onclick="verifyOTP()">Verify Code →</button>
             <button class="btn-ghost" id="btn-resend" onclick="resendOTP()" disabled>
               Resend code (<span id="resend-timer">60</span>s)
@@ -528,7 +528,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
                 <button class="toggle-pw" type="button" onclick="togglePw('setup-pw2',this)">👁</button>
               </div>
             </div>
-            <div class="error-msg" id="step3-error"></div>
+            <div class="error-msg" id="step3-error" role="alert"></div>
             <button class="btn-submit" id="btn-set-pw" onclick="setPassword()">Complete Setup →</button>
           </div>
 
@@ -550,7 +550,7 @@ body{font-family:'Nunito Sans',sans-serif;background:#F0EEFF;min-height:100vh;}
                      onkeydown="if(event.key==='Enter')login()">
               <button class="toggle-pw" type="button" onclick="togglePw('login-pw',this)">👁</button>
             </div>
-            <div class="error-msg" id="login-error"></div>
+            <div class="error-msg" id="login-error" role="alert"></div>
           </div>
           <button class="btn-submit" id="btn-login" onclick="login()">Sign In →</button>
           <hr class="divider">
@@ -645,7 +645,7 @@ function checkStrength(pw) {
   const pct = [0,20,45,65,85,100][score];
   const colors = ['#e0e0e0','#ef5350','#ffa726','#ffee58','#66bb6a','#7733CC'];
   const labels = ['','Weak','Fair','Good','Strong','Very strong'];
-  fill.style.width = pct+'%'; fill.style.background = colors[score];
+  fill.style.transform = 'scaleX('+pct/100+')'; fill.style.background = colors[score];
   label.textContent = score > 0 ? labels[score]+' password' : 'Use 8+ characters with letters, numbers and symbols.';
   label.style.color = score >= 3 ? '#7733CC' : score > 0 ? '#e65100' : '#8A7AAA';
 }
